@@ -33,17 +33,30 @@ public class MainController implements Initializable {
     private AnchorPane unitPane;
 
     @FXML
+    private JFXButton campusBTN;
+
+    @FXML
     private JFXButton unitsBTN;
+    @FXML
+    private TextField txt_county;
 
     @FXML
     private JFXButton userBTN;
 
     @FXML
     private AnchorPane userPane;
+
+    @FXML
+    private TableColumn<Campus, String> column_campusCode;
+
+    @FXML
+    private TableColumn<Campus, String> column_campusCounty;
     @FXML
     private TableColumn<User, String> column_code;
     @FXML
     private JFXComboBox<?> combo_usertype;
+    @FXML
+    private AnchorPane campusPane;
 
     @FXML
     private TableColumn<User, String> column_password;
@@ -51,7 +64,11 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<User, String> column_username;
+    @FXML
+    private JFXButton submitCampusBTN;
 
+    @FXML
+    private TableView<Campus> tbl_campus;
     @FXML
     private JFXButton classesBTN;
     @FXML
@@ -74,7 +91,7 @@ public class MainController implements Initializable {
     private JFXButton edit_BTN;
     @FXML
     private JFXButton submit_BTN;
-    private String usercode, username, usertype, password;
+    private String usercode, username, usertype, password, county;
 
     private boolean EDIT=false, ADD=true;
 
@@ -123,41 +140,59 @@ public class MainController implements Initializable {
         });
         userPane.setVisible(true);
         userBTN.setOnAction(e->{
-            if(studentPane.isVisible() || unitPane.isVisible() || classesPane.isVisible()){
+            if(studentPane.isVisible() || unitPane.isVisible() || classesPane.isVisible() || campusPane.isVisible()){
                 studentPane.setVisible(false);
                 unitPane.setVisible(false);
                 classesPane.setVisible(false);
+                campusPane.setVisible(false);
             }
             userPane.setVisible(true);
         });
         unitsBTN.setOnAction(e->{
-            if(userPane.isVisible() || studentPane.isVisible() || classesPane.isVisible()){
+            if(userPane.isVisible() || studentPane.isVisible() || classesPane.isVisible() || campusPane.isVisible()){
                 userPane.setVisible(false);
                 studentPane.setVisible(false);
                 classesPane.setVisible(false);
+                campusPane.setVisible(false);
             }
             unitPane.setVisible(true);
         });
         studentsBTN.setOnAction(e->{
-            if(unitPane.isVisible() || userPane.isVisible() || classesPane.isVisible()){
+            if(unitPane.isVisible() || userPane.isVisible() || classesPane.isVisible() || campusPane.isVisible()){
                 unitPane.setVisible(false);
                 userPane.setVisible(false);
                 classesPane.setVisible(false);
+                campusPane.setVisible(false);
             }
             studentPane.setVisible(true);
         });
         classesBTN.setOnAction(e->{
-            if(unitPane.isVisible() || studentPane.isVisible() || userPane.isVisible()){
+            if(unitPane.isVisible() || studentPane.isVisible() || userPane.isVisible() || campusPane.isVisible()){
                 unitPane.setVisible(false);
                 userPane.setVisible(false);
                 studentPane.setVisible(false);
+                campusPane.setVisible(false);
             }
             classesPane.setVisible(true);
+        });
+
+        campusBTN.setOnAction(e->{
+            if(unitPane.isVisible() || studentPane.isVisible() || userPane.isVisible() || classesPane.isVisible()){
+                unitPane.setVisible(false);
+                userPane.setVisible(false);
+                studentPane.setVisible(false);
+                classesPane.setVisible(false);
+            }
+            campusPane.setVisible(true);
         });
 
         submit_BTN.setOnAction(e->{
             saveAccount();
             insertNewUser();
+        });
+
+        submitCampusBTN.setOnAction(e->{
+            saveCampus();
         });
 
         edit_BTN.setOnAction(e->{
@@ -177,6 +212,26 @@ public class MainController implements Initializable {
 
         initTable();
         refreshTable();
+        refreshStudTable();
+    }
+
+    private void saveCampus() {
+        county = txt_county.getText();
+        query = "INSERT INTO campus VALUES(null, '"+county+"')";
+        dao.saveData(query);
+        txt_county.setText("");
+        refreshStudTable();
+    }
+
+    private void refreshStudTable() {
+        initCampus();
+        query = "select campus_code , county from campus";
+        tbl_campus.setItems(dao.getCampusData(query));
+    }
+
+    private void initCampus() {
+        column_campusCode.setCellValueFactory(cell -> cell.getValue().getcampusCode());
+        column_campusCounty.setCellValueFactory(cell-> cell.getValue().getcounty());
     }
 
     private void initGender() {

@@ -42,5 +42,20 @@ public class DataAccessObject {
 
         return list;
     }
+    public ObservableList<Campus> getCampusData(String query){
+        ObservableList<Campus> list = FXCollections.observableArrayList();
+        try {
+            connect = database.getConnection();
+            pstmt = connect.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                list.add(new Campus(rs.getString(1), rs.getString(2)));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
 }
