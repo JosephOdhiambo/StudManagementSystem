@@ -140,6 +140,7 @@ public class MainController implements Initializable {
         });
         userPane.setVisible(true);
         userBTN.setOnAction(e->{
+            refreshTable();
             if(studentPane.isVisible() || unitPane.isVisible() || classesPane.isVisible() || campusPane.isVisible()){
                 studentPane.setVisible(false);
                 unitPane.setVisible(false);
@@ -177,6 +178,7 @@ public class MainController implements Initializable {
         });
 
         campusBTN.setOnAction(e->{
+            refreshStudTable();
             if(unitPane.isVisible() || studentPane.isVisible() || userPane.isVisible() || classesPane.isVisible()){
                 unitPane.setVisible(false);
                 userPane.setVisible(false);
