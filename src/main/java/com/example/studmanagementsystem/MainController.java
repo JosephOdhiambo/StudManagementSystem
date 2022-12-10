@@ -54,7 +54,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<User, String> column_code;
     @FXML
-    private JFXComboBox<?> combo_usertype;
+    private JFXComboBox<Integer> combo_usertype;
     @FXML
     private AnchorPane campusPane;
 
