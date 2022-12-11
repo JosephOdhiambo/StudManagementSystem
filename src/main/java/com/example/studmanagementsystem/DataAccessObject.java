@@ -58,4 +58,67 @@ public class DataAccessObject {
         return list;
     }
 
+    public ObservableList<Course> getCoursesData(String query){
+        ObservableList<Course> list = FXCollections.observableArrayList();
+        try {
+            connect = database.getConnection();
+            pstmt = connect.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                list.add(new Course(rs.getString(1), rs.getString(2), rs.getString(3)));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public ObservableList<String> getLecturer(String query){
+        ObservableList list = FXCollections.observableArrayList();
+        try {
+            connect = database.getConnection();
+            pstmt = connect.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString(1));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public ObservableList<Integer> getVenue(String query){
+        ObservableList list = FXCollections.observableArrayList();
+        try {
+            connect = database.getConnection();
+            pstmt = connect.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getInt(1));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public ObservableList<String> getCourseComboBox(String query){
+        ObservableList ls = FXCollections.observableArrayList();
+        try {
+            connect = database.getConnection();
+            pstmt = connect.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                ls.add(rs.getString(1));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return ls;
+    }
+
 }

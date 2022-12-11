@@ -100,6 +100,9 @@ public class MainController implements Initializable {
 
     private boolean EDIT=false, ADD=true;
 
+
+    @FXML
+    private JFXButton btn_refreshCourses;
     @FXML
     private TextField txt_password;
 
@@ -118,7 +121,7 @@ public class MainController implements Initializable {
     @FXML
     private TextField txt_studname;
     @FXML
-    private JFXComboBox<?> combo_course;
+    private JFXComboBox<String> combo_course;
     @FXML
     private JFXComboBox<?> combo_campus;
     @FXML
@@ -191,6 +194,7 @@ public class MainController implements Initializable {
                 campusPane.setVisible(false);
             }
             studentPane.setVisible(true);
+            initCourse();
         });
         classesBTN.setOnAction(e->{
             if(unitPane.isVisible() || studentPane.isVisible() || userPane.isVisible() || campusPane.isVisible()){
@@ -220,15 +224,22 @@ public class MainController implements Initializable {
             saveAccount();
             insertNewUser();
         });
+        combo_course.setOnAction(e->{
+            initCourse();
+        });
 
         submitCampusBTN.setOnAction(e->{
             saveCampus();
         });
 
+
         edit_BTN.setOnAction(e->{
             EDIT = true;
             ADD = false;
             editTable();
+        });
+        btn_refreshCourses.setOnAction(e->{
+            initCourse();
         });
         new_BTN.setOnAction(e->{
             insertNewUser();
@@ -237,13 +248,18 @@ public class MainController implements Initializable {
         delete_BTN.setOnAction(e->{
             deleteUser();
         });
-
-
-
         initTable();
+        initCourse();
         refreshTable();
         refreshStudTable();
     }
+
+    private void initCourse() {
+        combo_course.getSelectionModel().clearSelection();
+        query = "SELECT course_name FROM course";
+        combo_course.setItems(dao.getCourseComboBox(query));
+    }
+
 
     private void showCourse() {
         try {
@@ -349,7 +365,6 @@ public class MainController implements Initializable {
         initTable();
         query = "select user_code, username, u_type, password from users";
         tbl_view.setItems(dao.getUserData(query));
-
     }
 
 
