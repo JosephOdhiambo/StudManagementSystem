@@ -6,13 +6,17 @@ import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import com.jfoenix.controls.JFXButton;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -23,6 +27,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
 
+    private FXMLLoader loader;
     @FXML
     private AnchorPane studentPane;
 
@@ -110,6 +115,26 @@ public class MainController implements Initializable {
     private AnchorPane opacityPane;
 
     private boolean Transitioned = false;
+    @FXML
+    private TextField txt_studname;
+    @FXML
+    private JFXComboBox<?> combo_course;
+    @FXML
+    private JFXComboBox<?> combo_campus;
+    @FXML
+    private TextField txt_academicYear;
+    @FXML
+    private TextField txt_email;
+    @FXML
+    private JFXComboBox<?> combo_userName;
+    @FXML
+    private JFXButton btn_course;
+    @FXML
+    private JFXButton btn_campus;
+    @FXML
+    private JFXButton btn_username;
+    @FXML
+    private JFXButton student_Submit;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dao = new DataAccessObject();
@@ -187,6 +212,9 @@ public class MainController implements Initializable {
             }
             campusPane.setVisible(true);
         });
+        btn_course.setOnMouseClicked(e->{
+            showCourse();
+        });
 
         submit_BTN.setOnAction(e->{
             saveAccount();
@@ -215,6 +243,24 @@ public class MainController implements Initializable {
         initTable();
         refreshTable();
         refreshStudTable();
+    }
+
+    private void showCourse() {
+        try {
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("Course.fxml"));
+            CourseController controller = new CourseController();
+            loader.setController(controller);
+            loader.load();
+            Scene scene = new Scene(loader.getRoot());
+            scene.getStylesheets().add(getClass().getResource("Course.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveCampus() {
