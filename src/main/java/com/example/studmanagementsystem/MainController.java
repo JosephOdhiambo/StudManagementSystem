@@ -39,7 +39,10 @@ public class MainController implements Initializable {
     private AnchorPane unitPane;
 
     @FXML
-    private ImageView btn_refreshCourses;
+    private JFXButton btn_refreshCampus;
+
+    @FXML
+    private JFXButton btn_refreshCourse;
 
     @FXML
     private JFXButton campusBTN;
@@ -126,7 +129,7 @@ public class MainController implements Initializable {
     @FXML
     private JFXComboBox<String> combo_course;
     @FXML
-    private JFXComboBox<?> combo_campus;
+    private JFXComboBox<String> combo_campus;
     @FXML
     private TextField txt_academicYear;
     @FXML
@@ -197,7 +200,8 @@ public class MainController implements Initializable {
                 campusPane.setVisible(false);
             }
             studentPane.setVisible(true);
-            initCourse();
+            combo_course.getSelectionModel().select(0);
+            combo_campus.getSelectionModel().select(0);
         });
         classesBTN.setOnAction(e->{
             if(unitPane.isVisible() || studentPane.isVisible() || userPane.isVisible() || campusPane.isVisible()){
@@ -238,8 +242,12 @@ public class MainController implements Initializable {
             ADD = false;
             editTable();
         });
-        btn_refreshCourses.setOnMouseClicked(e->{
-            initCourse();
+        btn_refreshCourse.setOnMouseClicked(e->{
+            initCourseCombo();
+        });
+
+        btn_refreshCampus.setOnMouseClicked(e->{
+            initCampusCombo();
         });
         new_BTN.setOnAction(e->{
             insertNewUser();
@@ -248,17 +256,28 @@ public class MainController implements Initializable {
         delete_BTN.setOnAction(e->{
             deleteUser();
         });
+        initCampusCombo();
         initTable();
-        initCourse();
+        initCourseCombo();
         refreshTable();
         refreshStudTable();
+        combo_course.getSelectionModel().select(0);
+        combo_campus.getSelectionModel().select(0);
     }
 
-    private void initCourse() {
+    private void initCampusCombo() {
+        combo_campus.getSelectionModel().clearSelection();
+        query = "SELECT county FROM campus";
+        combo_campus.setItems(dao.getCourseCombo(query));
+    }
+
+    private void initCourseCombo() {
         combo_course.getSelectionModel().clearSelection();
         query = "SELECT course_name FROM course";
         combo_course.setItems(dao.getCourseComboBox(query));
     }
+
+
 
 
     private void showCourse() {

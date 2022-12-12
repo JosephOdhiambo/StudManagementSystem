@@ -58,6 +58,8 @@ public class DataAccessObject {
         return list;
     }
 
+
+
     public ObservableList<Course> getCoursesData(String query){
         ObservableList<Course> list = FXCollections.observableArrayList();
         try {
@@ -106,6 +108,22 @@ public class DataAccessObject {
     }
 
     public ObservableList<String> getCourseComboBox(String query){
+        ObservableList ls = FXCollections.observableArrayList();
+        try {
+            connect = database.getConnection();
+            pstmt = connect.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                ls.add(rs.getString(1));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return ls;
+    }
+
+    public ObservableList<String> getCourseCombo(String query){
         ObservableList ls = FXCollections.observableArrayList();
         try {
             connect = database.getConnection();

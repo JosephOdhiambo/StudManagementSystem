@@ -82,6 +82,8 @@ public class CourseController implements Initializable {
         query = "INSERT INTO course VALUES(null, '" +txt_courseName.getText()+ "', (SELECT lecturer_code FROM lecturer WHERE lecturer_name='"+lecturer+"'), (SELECT venue_code FROM class WHERE class_name='"+venue+"'))";
         dao.saveData(query);
         txt_courseName.setText("");
+        combo_venue.getSelectionModel().select(0);
+        combo_lecturer.getSelectionModel().select(0);
         refreshTable();
 
     }
@@ -94,6 +96,8 @@ public class CourseController implements Initializable {
         initTable();
         query = "SELECT course_name, lecturer_code, venue_code FROM course";
         tbl_courses.setItems(dao.getCoursesData(query));
+        combo_lecturer.getSelectionModel().clearSelection();
+        combo_venue.getSelectionModel().clearSelection();
     }
 
 
