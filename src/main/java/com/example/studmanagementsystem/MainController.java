@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import com.jfoenix.controls.JFXButton;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -36,6 +37,9 @@ public class MainController implements Initializable {
 
     @FXML
     private AnchorPane unitPane;
+
+    @FXML
+    private ImageView btn_refreshCourses;
 
     @FXML
     private JFXButton campusBTN;
@@ -101,8 +105,7 @@ public class MainController implements Initializable {
     private boolean EDIT=false, ADD=true;
 
 
-    @FXML
-    private JFXButton btn_refreshCourses;
+
     @FXML
     private TextField txt_password;
 
@@ -224,9 +227,6 @@ public class MainController implements Initializable {
             saveAccount();
             insertNewUser();
         });
-        combo_course.setOnAction(e->{
-            initCourse();
-        });
 
         submitCampusBTN.setOnAction(e->{
             saveCampus();
@@ -238,7 +238,7 @@ public class MainController implements Initializable {
             ADD = false;
             editTable();
         });
-        btn_refreshCourses.setOnAction(e->{
+        btn_refreshCourses.setOnMouseClicked(e->{
             initCourse();
         });
         new_BTN.setOnAction(e->{

@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane prefHeight="633.0" prefWidth="963.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studmanagementsystem.MainController">
+<BorderPane prefHeight="633.0" prefWidth="963.0" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.studmanagementsystem.MainController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -120,7 +121,16 @@
                                     <JFXComboBox fx:id="combo_userName" prefHeight="64.0" prefWidth="442.0" GridPane.rowIndex="5" />
                                     <JFXButton fx:id="student_Submit" prefHeight="32.0" prefWidth="209.0" style="-fx-background-color: #04afff;" text="Submit" GridPane.rowIndex="6" />
                                     <TextField fx:id="txt_studname" promptText="Enter your name" />
-                                    <JFXButton fx:id="btn_refreshCourses" text="Refresh" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <ImageView fx:id="btn_refreshCourses" blendMode="COLOR_BURN" fitHeight="25.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="refreshCourse" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@refresh.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXButton GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <graphic>
+                                          <FontAwesomeIconView />
+                                       </graphic>
+                                    </JFXButton>
                                  </children>
                               </GridPane>
                            </children></AnchorPane>
