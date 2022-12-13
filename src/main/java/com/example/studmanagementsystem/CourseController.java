@@ -61,6 +61,8 @@ public class CourseController implements Initializable {
         initVenue();
         initLecturer();
         refreshTable();
+        combo_venue.getSelectionModel().select(0);
+        combo_lecturer.getSelectionModel().select(0);
     }
 
     private void initVenue() {

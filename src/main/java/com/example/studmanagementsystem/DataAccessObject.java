@@ -139,4 +139,20 @@ public class DataAccessObject {
         return ls;
     }
 
+    public ObservableList<String> getUserNameCombo(String query){
+        ObservableList ls = FXCollections.observableArrayList();
+        try {
+            connect = database.getConnection();
+            pstmt = connect.prepareStatement(query);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                ls.add(rs.getString(1));
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return ls;
+    }
+
 }

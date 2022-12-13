@@ -117,6 +117,10 @@ public class MainController implements Initializable {
 
     @FXML
     private TextField txt_usertype;
+
+
+    @FXML
+    private JFXButton btn_refreshUserName;
     private int ID;
     @FXML
     private ImageView drawerImage;
@@ -135,7 +139,7 @@ public class MainController implements Initializable {
     @FXML
     private TextField txt_email;
     @FXML
-    private JFXComboBox<?> combo_userName;
+    private JFXComboBox<String> combo_userName;
     @FXML
     private JFXButton btn_course;
     @FXML
@@ -200,8 +204,13 @@ public class MainController implements Initializable {
                 campusPane.setVisible(false);
             }
             studentPane.setVisible(true);
+            initCourseCombo();
+            initUsernameCombo();
+            initCampusCombo();
             combo_course.getSelectionModel().select(0);
             combo_campus.getSelectionModel().select(0);
+            combo_userName.getSelectionModel().select(0);
+
         });
         classesBTN.setOnAction(e->{
             if(unitPane.isVisible() || studentPane.isVisible() || userPane.isVisible() || campusPane.isVisible()){
@@ -242,20 +251,27 @@ public class MainController implements Initializable {
             ADD = false;
             editTable();
         });
-        btn_refreshCourse.setOnMouseClicked(e->{
+        btn_refreshCourse.setOnAction(e->{
             initCourseCombo();
+        });
+        btn_refreshUserName.setOnAction(e->{
+            initUsernameCombo();
         });
 
         btn_refreshCampus.setOnMouseClicked(e->{
             initCampusCombo();
         });
+
+
         new_BTN.setOnAction(e->{
             insertNewUser();
         });
 
+
         delete_BTN.setOnAction(e->{
             deleteUser();
         });
+        initUsernameCombo();
         initCampusCombo();
         initTable();
         initCourseCombo();
@@ -263,6 +279,14 @@ public class MainController implements Initializable {
         refreshStudTable();
         combo_course.getSelectionModel().select(0);
         combo_campus.getSelectionModel().select(0);
+        combo_userName.getSelectionModel().select(0);
+    }
+
+
+    private void initUsernameCombo() {
+        combo_userName.getSelectionModel().clearSelection();
+        query = "SELECT username from users";
+        combo_userName.setItems(dao.getUserNameCombo(query));
     }
 
     private void initCampusCombo() {

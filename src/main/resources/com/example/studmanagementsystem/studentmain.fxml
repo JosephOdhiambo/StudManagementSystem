@@ -114,7 +114,6 @@
                                     <TextField fx:id="txt_academicYear" prefHeight="61.0" prefWidth="139.0" promptText="Enter Academic Year" GridPane.rowIndex="3" />
                                     <TextField fx:id="txt_email" prefHeight="51.0" prefWidth="162.0" promptText="Email" GridPane.rowIndex="4" />
                                     <JFXButton fx:id="btn_course" prefHeight="65.0" prefWidth="164.0" style="-fx-background-color: #04afff;" text="+" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <JFXButton fx:id="btn_username" prefHeight="70.0" prefWidth="165.0" style="-fx-background-color: #04afff;" text="+" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                     <JFXComboBox fx:id="combo_course" prefHeight="52.0" prefWidth="577.0" GridPane.rowIndex="1" />
                                     <JFXComboBox fx:id="combo_campus" prefHeight="143.0" prefWidth="666.0" GridPane.rowIndex="2" />
                                     <JFXComboBox fx:id="combo_userName" prefHeight="64.0" prefWidth="442.0" GridPane.rowIndex="5" />
@@ -126,6 +125,11 @@
                                        </graphic>
                                     </JFXButton>
                                     <JFXButton fx:id="btn_refreshCampus" prefHeight="62.0" prefWidth="66.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="REFRESH" size="20" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btn_refreshUserName" prefHeight="62.0" prefWidth="66.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                        <graphic>
                                           <FontAwesomeIconView glyphName="REFRESH" size="20" />
                                        </graphic>
