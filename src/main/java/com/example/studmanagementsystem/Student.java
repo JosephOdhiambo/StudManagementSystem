@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Student {
-    private final IntegerProperty studCode;
+    private final StringProperty studCode;
     private final StringProperty studName;
     private final StringProperty courseCode;
     private final StringProperty campusCode;
@@ -14,8 +14,8 @@ public class Student {
     private final StringProperty studEmail;
     private final StringProperty userCode;
 
-    public Student(Integer studCode, String studName, String courseCode, String campusCode, String academicYear, String studEmail, String userCode) {
-        this.studCode = new SimpleIntegerProperty(studCode);
+    public Student(String studCode, String studName, String courseCode, String campusCode, String academicYear, String studEmail, String userCode) {
+        this.studCode = new SimpleStringProperty(studCode);
         this.studName = new SimpleStringProperty(studName);
         this.courseCode = new SimpleStringProperty(courseCode);
         this.campusCode = new SimpleStringProperty(campusCode);
@@ -23,7 +23,8 @@ public class Student {
         this.studEmail = new SimpleStringProperty(studEmail);
         this.userCode = new SimpleStringProperty(userCode);
     }
-    public IntegerProperty getstudCode(){return studCode;}
+
+    public StringProperty getStudCode() {return studCode;}
     public StringProperty getstudName(){return studName;}
     public StringProperty getcourseCode(){return courseCode;}
     public StringProperty getcampusCode(){return campusCode;}
