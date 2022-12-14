@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -112,7 +113,8 @@ public class MainController implements Initializable {
 
 
     @FXML
-    private TextField txt_password;
+    private PasswordField txt_password;
+    private PasswordField passwordField;
 
     @FXML
     private TextField txt_username;
@@ -173,6 +175,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        passwordField = new PasswordField();
         dao = new DataAccessObject();
         initGender();
         drawerImage.setOnMouseClicked(e->{
