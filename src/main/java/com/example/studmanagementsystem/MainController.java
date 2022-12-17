@@ -277,6 +277,11 @@ public class MainController implements Initializable {
             ADD = false;
             editTable();
         });
+        tbl_view.setOnMouseClicked(e->{
+            EDIT = true;
+            ADD = false;
+            editTable();
+        });
         btn_refreshCourse.setOnAction(e->{
             initCourseCombo();
         });
