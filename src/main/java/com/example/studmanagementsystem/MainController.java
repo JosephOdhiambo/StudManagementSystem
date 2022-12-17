@@ -66,6 +66,10 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<Campus, String> column_campusCounty;
+
+    @FXML
+    private JFXButton newSTudentBTN;
+
     @FXML
     private TableColumn<User, String> column_code;
     @FXML
@@ -152,7 +156,7 @@ public class MainController implements Initializable {
     private JFXButton btn_username;
     @FXML
     private JFXButton student_Submit;
-    private String name, course, campus, year, email, unamestud;
+    private String code, name, course, campus, year, email, unamestud;
 
 
     @FXML
@@ -223,6 +227,10 @@ public class MainController implements Initializable {
             unitPane.setVisible(true);
         });
         studentsBTN.setOnAction(e->{
+            initCourseCombo();
+            initUsernameCombo();
+            initCampusCombo();
+            insertNewStudent();
             if(unitPane.isVisible() || userPane.isVisible() || classesPane.isVisible() || campusPane.isVisible()){
                 unitPane.setVisible(false);
                 userPane.setVisible(false);
@@ -230,9 +238,6 @@ public class MainController implements Initializable {
                 campusPane.setVisible(false);
             }
             studentPane.setVisible(true);
-            initCourseCombo();
-            initUsernameCombo();
-            initCampusCombo();
 
         });
         classesBTN.setOnAction(e->{
@@ -277,6 +282,15 @@ public class MainController implements Initializable {
             ADD = false;
             editTable();
         });
+
+        newSTudentBTN.setOnAction(e->{
+            insertNewStudent();
+        });
+        tbl_Student.setOnMouseClicked(e->{
+            EDIT = true;
+            ADD = false;
+            editStudents();
+        });
         tbl_view.setOnMouseClicked(e->{
             EDIT = true;
             ADD = false;
@@ -311,6 +325,32 @@ public class MainController implements Initializable {
         refreshCampusTable();
     }
 
+    private void insertNewStudent() {
+        Student selected  = tbl_Student.getSelectionModel().getSelectedItem();
+        EDIT = false;
+        ADD = true;
+        txt_studname.setText("");
+        combo_course.getSelectionModel().clearSelection();
+        combo_campus.getSelectionModel().clearSelection();
+        txt_academicYear.setText("");
+        txt_email.setText("");
+        combo_userName.getSelectionModel().clearSelection();
+    }
+
+    private void editStudents() {
+        try{
+            Student selected = tbl_Student.getSelectionModel().getSelectedItem();
+            txt_studname.setText(selected.getstudName().get());
+            combo_course.getSelectionModel().select(selected.getcourseCode().get());
+            combo_campus.getSelectionModel().select(selected.getcampusCode().get());
+            txt_academicYear.setText(selected.getacademicYear().get());
+            txt_email.setText(selected.getstudEmail().get());
+            combo_userName.getSelectionModel().select(selected.getuserCode().get());
+        }catch(Exception e){
+            System.out.println("Error");
+        }
+    }
+
     private void saveStudent() {
         name = txt_studname.getText();
         course = combo_course.getSelectionModel().getSelectedItem();
@@ -318,10 +358,14 @@ public class MainController implements Initializable {
         year = txt_academicYear.getText();
         email = txt_email.getText();
         unamestud = combo_userName.getSelectionModel().getSelectedItem();
-        query = "INSERT INTO student VALUES(null, '"+name+"', (SELECT course_code FROM course WHERE course_name='"+course+"'), (SELECT campus_code FROM campus WHERE county='"+campus+"'),'"+year+"','"+email+"',(SELECT user_code FROM users WHERE username='"+unamestud+"'))";
-        System.out.println(query);
-//        query = "INSERT INTO campus VALUES(null, '"+county+"')";
-//        dao.saveData(query);
+        if(EDIT){
+            Student selected = tbl_Student.getSelectionModel().getSelectedItem();
+            code = selected.getStudCode().get();
+            query = "UPDATE `student` SET `studname`='"+name+"',`course_code`=(SELECT course_code FROM course WHERE course_name='"+course+"'),`campus_code`=(SELECT campus_code from campus WHERE county='"+campus+"'),`academic_year`='"+year+"',`stud_email`='"+email+"',`user_code`=(SELECT user_code FROM users WHERE username='"+unamestud+"') WHERE student_code='"+code+"'";
+        }
+        else if(ADD) {
+            query = "INSERT INTO student VALUES(null, '" + name + "', (SELECT course_code FROM course WHERE course_name='" + course + "'), (SELECT campus_code FROM campus WHERE county='" + campus + "'),'" + year + "','" + email + "',(SELECT user_code FROM users WHERE username='" + unamestud + "'))";
+        }
         dao.saveData(query);
         txt_studname.setText("");
         combo_course.getSelectionModel().select(0);
@@ -330,12 +374,15 @@ public class MainController implements Initializable {
         txt_email.setText("");
         combo_userName.getSelectionModel().select(0);
         refreshStudTable();
-
     }
 
     private void refreshStudTable() {
         initStudents();
-        query = "select student_code, studname, course_code, campus_code, academic_year, stud_email, user_code from student";
+        insertNewStudent();
+        query = "select student_code, studname, course.course_name, campus.county, academic_year, stud_email, users.username from student\n" +
+                "JOIN course ON student.course_code = course.course_code\n" +
+                "JOIN campus ON student.campus_code = campus.campus_code\n" +
+                "JOIN users ON student.user_code = users.user_code";
         tbl_Student.setItems(dao.getStudentData(query));
 
     }
